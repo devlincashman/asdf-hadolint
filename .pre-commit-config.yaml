@@ -26,14 +26,9 @@ repos:
       # Security
       - id: detect-private-key
 
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.8.0
-    hooks:
-      - id: shellcheck
-        args: ["--severity=warning"]
-
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.6
     hooks:
+      - id: shellcheck
       - id: shfmt
         args: ["-l", "-i", "2", "-ci", "-sr", "-w"]
