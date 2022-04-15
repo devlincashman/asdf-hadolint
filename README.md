@@ -11,14 +11,11 @@
 
 - [Dependencies](#dependencies)
 - [Install](#install)
-- [Why?](#why)
 - [Contributing](#contributing)
-- [License](#license)
 
 # Dependencies
 
-- `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+- `bash`, `curl`: generic POSIX utilities.
 
 # Install
 
@@ -51,6 +48,12 @@ install & manage versions.
 
 # Contributing
 
-Contributions of any kind welcome! See the [contributing guide](contributing.md).
+Testing Locally:
 
-[Thanks goes to these contributors](https://github.com/devlincashman/asdf-hadolint/graphs/contributors)!
+```shell
+asdf plugin test hadolint https://github.com/devlincashman/asdf-hadolint.git "hadolint --help"
+```
+
+Tests are automatically run in GitHub Actions on push and PR.
+
+[Big thanks to all contributors](https://github.com/devlincashman/asdf-hadolint/graphs/contributors)!
