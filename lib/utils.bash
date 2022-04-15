@@ -14,6 +14,12 @@ fail() {
 
 curl_opts=(-fsSL)
 
+case "$OSTYPE" in
+  darwin*) platform="Darwin-x86_64" ;;
+  linux*) platform="Linux-x86_64" ;;
+  *) fail "Unsupported platform" ;;
+esac
+
 # NOTE: You might want to remove this if hadolint is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
   curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
@@ -42,7 +48,7 @@ download_release() {
   filename="$2"
 
   # TODO: Adapt the release URL convention for hadolint
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  url="$GH_REPO/releases/download/v${version}/hadolint-${platform}"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
