@@ -27,28 +27,43 @@ sort_versions() {
 list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
     grep -o 'refs/tags/.*' | cut -d/ -f3- |
-    sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+    sed 's/^v//'
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-  # Change this function if hadolint has other means of determining installable versions.
   list_github_tags
 }
 
 download_release() {
-  local version filename url
+  local version filename uname_s uname_m os arch url
   version="$1"
   filename="$2"
 
-  case "$OSTYPE" in
-    darwin*) platform="Darwin-x86_64" ;;
-    linux*) platform="Linux-x86_64" ;;
-    *) fail "Unsupported platform" ;;
+  uname_s="$(uname -s)"
+  uname_m="$(uname -m)"
+
+  case "$uname_s" in
+    Darwin) os="Darwin" ;;
+    Linux) os="Linux" ;;
+    *) fail "OS not supported: $uname_s" ;;
   esac
 
+  case "$uname_m" in
+    x86_64) arch="x86_64" ;;
+    aarch64) arch="arm64" ;;
+    armv8l) arch="arm64" ;;
+    arm64) arch="arm64" ;;
+    *) fail "Architecture not supported: $uname_m" ;;
+  esac
+
+  # Ugly hack until native M1 arm64 binaries are avaliable for Darwin from hadolint
+  # M1 chips can still run x86_64 binaries fine via Rosetta 2 in the meantime
+  if [[ $os == "Darwin" ]]; then
+    arch="x86_64"
+  fi
+
   # TODO: Adapt the release URL convention for hadolint
-  url="$GH_REPO/releases/download/v${version}/hadolint-${platform}"
+  url="$GH_REPO/releases/download/v${version}/hadolint-${os}-${arch}"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -57,7 +72,7 @@ download_release() {
 install_version() {
   local install_type="$1"
   local version="$2"
-  local install_path="$3"
+  local install_path="${3%/bin}/bin"
 
   if [ "$install_type" != "version" ]; then
     fail "asdf-$TOOL_NAME supports release installs only"
@@ -70,7 +85,7 @@ install_version() {
     # TODO: Asert hadolint executable exists.
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-    test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
+    test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
