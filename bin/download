@@ -15,6 +15,7 @@ release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME"
 
 # Download tar.gz file to the download directory
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
+
 chmod +x "$release_file"
 
 # #  Extract contents of tar.gz file into the download directory
