@@ -54,7 +54,3 @@ install & manage versions.
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
 [Thanks goes to these contributors](https://github.com/devlincashman/asdf-hadolint/graphs/contributors)!
-
-# License
-
-See [LICENSE](LICENSE) © [devlincashman](https://github.com/devlincashman/)
