@@ -3,7 +3,7 @@
 # asdf-hadolint [![Build](https://github.com/devlincashman/asdf-hadolint/actions/workflows/build.yml/badge.svg)](https://github.com/devlincashman/asdf-hadolint/actions/workflows/build.yml) [![Lint](https://github.com/devlincashman/asdf-hadolint/actions/workflows/lint.yml/badge.svg)](https://github.com/devlincashman/asdf-hadolint/actions/workflows/lint.yml)
 
 
-[hadolint](<TOOL HOMEPAGE>) plugin for the [asdf version manager](https://asdf-vm.com).
+[hadolint](https://github.com/hadolint/hadolint) plugin for the [asdf version manager](https://asdf-vm.com).
 
 </div>
 
