@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for hadolint.
 GH_REPO="https://github.com/hadolint/hadolint"
 TOOL_NAME="hadolint"
-TOOL_TEST="hadolint --help"
+TOOL_TEST="hadolint --version"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -62,7 +61,6 @@ download_release() {
     arch="x86_64"
   fi
 
-  # TODO: Adapt the release URL convention for hadolint
   url="$GH_REPO/releases/download/v${version}/hadolint-${os}-${arch}"
 
   echo "* Downloading $TOOL_NAME release $version..."
@@ -82,7 +80,7 @@ install_version() {
     mkdir -p "$install_path"
     cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-    # TODO: Asert hadolint executable exists.
+    # Asert hadolint executable exists.
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
